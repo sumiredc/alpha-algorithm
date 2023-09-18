@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+dependencies:
+  ts-heapq:
+    specifier: ^1.0.4
+    version: 1.0.4
+
 devDependencies:
   '@types/jest':
     specifier: ^29.5.4
@@ -3714,6 +3719,10 @@ packages:
     dependencies:
       typescript: 5.1.6
     dev: true
+
+  /ts-heapq@1.0.4:
+    resolution: {integrity: sha512-hAC+IdSGdz0PBOC6FtQ7QCqfVkrJC7dhzOH9LT3HAw5I8xM2+RZysLYc3UYlWcngJ2HOmAk3ekeZWzLL8X0UxA==}
+    dev: false
 
   /ts-jest@29.1.1(@babel/core@7.22.17)(jest@29.6.4)(typescript@5.1.6):
     resolution: {integrity: sha512-D6xjnnbP17cC85nliwGiL+tpoKN0StpgE0TeOjXQTU6MVCfsB4v7aW05CgQ/1OywGb0x/oy9hHFnN+sczTiRaA==}
