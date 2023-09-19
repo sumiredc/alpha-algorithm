@@ -1,27 +1,27 @@
 /**
  * @see https://colab.research.google.com/drive/1CIy9oMS6YYc0pVyYwc21av3ZpneNYh1r
+ * @see https://docs.google.com/document/d/1mROIPSxpH6AYMAxKsBo0X71jkwdki4qOQpSLahn3UYw/edit
  *
  * @time_complexity     O(N)
- * @spatial_complexity  O(1)
+ * @spatial_complexity  O(N)
  */
 
 const BACKSPACE = '#';
 
 export const solve = (s: string, t: string): boolean => {
-    return backspace(s) === backspace(t);
+    return deletePrevChar(s) === deletePrevChar(t);
 };
 
-const backspace = (s: string): string => {
-    while (s.indexOf(BACKSPACE) !== -1) {
-        const index = s.indexOf(BACKSPACE);
+const deletePrevChar = (s: string): string => {
+    let stack: string = '';
 
-        if (index === 0) {
-            // 先頭のBACKSPACE記号を削除
-            s = s.substring(1, s.length);
+    for (const char of [...s]) {
+        if (char === BACKSPACE) {
+            stack = stack.substring(0, stack.length - 1);
         } else {
-            // BACKSPACEの1文字前と、BACKSPACE記号を削除
-            s = s.substring(0, index - 1) + s.substring(index + 1, s.length);
+            stack += char;
         }
     }
-    return s;
+
+    return stack;
 };

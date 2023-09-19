@@ -1,4 +1,4 @@
-import {solve} from './compare-string';
+import { solve } from './compare-string';
 
 describe.each([
     ['coll#or', 'co#olor', true],
