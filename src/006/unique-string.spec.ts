@@ -1,4 +1,4 @@
-import {solve} from './unique-string';
+import { solve } from './unique-string';
 
 describe.each([
     ['aaabbccc', 2],
