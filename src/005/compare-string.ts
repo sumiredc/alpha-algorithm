@@ -3,7 +3,7 @@
  * @see https://docs.google.com/document/d/1mROIPSxpH6AYMAxKsBo0X71jkwdki4qOQpSLahn3UYw/edit
  *
  * @time_complexity     O(N)
- * @spatial_complexity  O(N)
+ * @spatial_complexity  O(1)
  */
 
 const BACKSPACE = '#';
@@ -13,15 +13,24 @@ export const solve = (s: string, t: string): boolean => {
 };
 
 const deletePrevChar = (s: string): string => {
-    let stack: string = '';
+    let pointer = s.length - 1;
+    let backspaceCount = 0;
 
-    for (const char of [...s]) {
-        if (char === BACKSPACE) {
-            stack = stack.substring(0, stack.length - 1);
-        } else {
-            stack += char;
+    while (pointer >= 0) {
+        const currentChar = s.substring(pointer, pointer + 1);
+        if (currentChar === BACKSPACE) {
+            backspaceCount++;
+            s = dropChar(s, pointer);
+        } else if (backspaceCount > 0) {
+            backspaceCount--;
+            s = dropChar(s, pointer);
         }
+        pointer--;
     }
 
-    return stack;
+    return s;
 };
+
+// index指定した箇所の文字を削除する関数
+export const dropChar = (s: string, i: number) =>
+    s.substring(0, i) + s.substring(i + 1, s.length);
