@@ -1,21 +1,23 @@
-import { Heapq } from 'ts-heapq';
-
-type CharCounters = { [key: string]: number };
+type CharCounter = { [key: string]: number };
 
 /**
+ * ヒープ構造
  * @see https://colab.research.google.com/drive/12UvYDTAd-jlwRi3Q4r0FuqVVjEbHDlFt
  *
- * @time_complexity     O(N^2) or O(N) 0r O(NlogN)
- * @spatial_complexity  O(N)
+ * ソート
+ * @see https://colab.research.google.com/drive/1gx99zHKnG8fUiH_L7F12Sq30iDq3T01H
+ *
+ * @time_complexity     O(N)
+ * @spatial_complexity  O(N) or O(1)
  */
 export const solve = (s: string): number => {
-    const charCounters: CharCounters = makeCharCounters(s);
-    return neededDeleteTimesToUnique(charCounters);
+    const charCounters: CharCounter = getCountOfCharacters(s);
+    return getCountDeletedCharas(charCounters);
 };
 
 // 文字の出現回数を格納した配列を作成
-const makeCharCounters = (s: string): CharCounters => {
-    const charCounters: CharCounters = {};
+const getCountOfCharacters = (s: string): CharCounter => {
+    const charCounters: CharCounter = {};
     for (const char of [...s]) {
         if (char in charCounters) {
             charCounters[char]++;
@@ -27,26 +29,35 @@ const makeCharCounters = (s: string): CharCounters => {
 };
 
 // ユニークにするために必要な削除回数の算出
-const neededDeleteTimesToUnique = (charCounters: CharCounters) => {
-    const heap = new Heapq(Object.values(charCounters));
-
+export const getCountDeletedCharas = (charCounters: CharCounter) => {
+    const asc = Object.values(charCounters).sort((a, b) => a - b);
     let counter = 0;
-    const uniqueCounts = new Set<number>();
 
-    while (heap.length() > 0) {
-        // 最大値の値を抽出
-        let current = heap.pop();
+    // 最大値を直前の値として用意
+    let before = asc.pop()!;
 
-        // Setに追加した前後でSet内の数が変更しなければ
-        // ユニークになっていないため削除カウントを進める
-        while (
-            current > 0 &&
-            uniqueCounts.size === uniqueCounts.add(current).size
-        ) {
-            current--;
-            counter++;
+    while (asc.length > 0) {
+        const current = asc.pop()!;
+
+        if (before <= current) {
+            // 直前の値から-1の数にするために必要な減算値をカウントアップする
+            counter += clampedSubtraction(current, before);
+            if (before > 1) {
+                before--;
+            }
+        } else {
+            before = current;
         }
     }
 
     return counter;
+};
+
+// 2つの数の差分を算出する
+export const clampedSubtraction = (x: number, y: number) => {
+    const rsv = y - 1;
+    if (rsv > x) {
+        return x;
+    }
+    return x - rsv;
 };
