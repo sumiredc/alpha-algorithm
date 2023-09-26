@@ -18,9 +18,10 @@
  * @spatial_complexity  O(1)
  */
 export const solve = (nums: number[], x: number): number => {
+    // 数列の合計値を算出 O(N)
     const total = nums.reduce((a: number, b: number) => a + b, 0);
 
-    // 数列の合計値が足りているか検証
+    // 合計値が足りているか検証
     if (x > total) {
         return -1;
     }
@@ -30,10 +31,7 @@ export const solve = (nums: number[], x: number): number => {
         return nums.length;
     }
 
-    if (nums[nums.length - 1] === x) {
-        return 1;
-    }
-
+    // popのみの取り出しで検証
     let times = addPopLoop(nums, x);
 
     let forSum = 0;
@@ -44,11 +42,14 @@ export const solve = (nums: number[], x: number): number => {
             break;
         }
 
+        // shift のみの取り出しを検証
         forSum += num;
-        if (total === x) {
+        if (forSum === x) {
+            times = forCount;
             break;
         }
 
+        // shift + pop の取り出しを検証
         let subTimes = addPopLoop(nums, x, forSum);
         if (subTimes !== -1) {
             subTimes += forCount;
@@ -62,11 +63,10 @@ export const solve = (nums: number[], x: number): number => {
 
 // 後ろから値を取り出し順に加算検証
 export const addPopLoop = (nums: number[], x: number, sum = 0): number => {
-    const cloneNums = nums.slice();
     let times = -1;
 
     for (let i = 1; i <= nums.length; i++) {
-        sum += cloneNums.pop()!;
+        sum += nums[nums.length - i];
         if (sum === x) {
             times = i;
             break;

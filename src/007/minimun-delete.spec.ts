@@ -219,6 +219,9 @@ describe.each([
         16,
     ],
     [[100], 100, 1],
+    [[10, 1, 1, 1, 1, 1], 5, 5],
+    [[100, 1, 1, 1, 1, 1], 100, 1],
+    [[100, 100, 1, 1, 1, 1], 200, 2],
 ])('minimun-delete', (nums: number[], x: number, expected: number) => {
     it(`solve ${JSON.stringify(nums)} ${x}`, () => {
         const actual = solve(nums, x);
