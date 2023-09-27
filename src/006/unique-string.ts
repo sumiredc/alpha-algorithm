@@ -7,15 +7,19 @@ type CharCounter = { [key: string]: number };
  * ソート
  * @see https://colab.research.google.com/drive/1gx99zHKnG8fUiH_L7F12Sq30iDq3T01H
  *
- * @time_complexity     O(N)
- * @spatial_complexity  O(N) or O(1)
+ * @time_complexity     O(NlogN)
+ * @spatial_complexity  O(1)
  */
 export const solve = (s: string): number => {
     const charCounters: CharCounter = getCountOfCharacters(s);
     return getCountDeletedCharas(charCounters);
 };
 
-// 文字の出現回数を格納した配列を作成
+/**
+ * 文字の出現回数を格納した配列を作成
+ * @time_complexity     O(N)
+ * @spatial_complexity  O(N)
+ */
 const getCountOfCharacters = (s: string): CharCounter => {
     const charCounters: CharCounter = {};
     for (const char of [...s]) {
@@ -30,12 +34,14 @@ const getCountOfCharacters = (s: string): CharCounter => {
 
 // ユニークにするために必要な削除回数の算出
 export const getCountDeletedCharas = (charCounters: CharCounter) => {
+    /** @time_complexity O(NlogN) */
     const asc = Object.values(charCounters).sort((a, b) => a - b);
     let counter = 0;
 
     // 最大値を直前の値として用意
     let before = asc.pop()!;
 
+    /** @time_complexity O(N) */
     while (asc.length > 0) {
         const current = asc.pop()!;
 
