@@ -14,65 +14,67 @@
  * 1 <= nums[i] <= 10000
  * 1 <= x <= 10^7
  *
- * @time_complexity     O(N^2)
- * @spatial_complexity  O(1)
+ * @time_complexity     O(N)
+ * @spatial_complexity  O(N)
  */
 export const solve = (nums: number[], x: number): number => {
-    // 数列の合計値を算出 O(N)
-    const total = nums.reduce((a: number, b: number) => a + b, 0);
+    let times = -1;
 
-    // 合計値が足りているか検証
-    if (x > total) {
-        return -1;
+    // popの合計値と回数のリストを作成
+    const popSumList = makePopSumList(nums);
+
+    // もしxがキーに含まれていれば、加算回数を取得
+    if (popSumList.has(x)) {
+        times = popSumList.get(x)!;
     }
 
-    // 合計値と一致すれば数列の個数を返却
-    if (x === total) {
-        return nums.length;
-    }
-
-    // popのみの取り出しで検証
-    let times = addPopLoop(nums, x);
-
-    let forSum = 0;
+    // numsを前から検証（shift）
+    let shiftSum = 0;
     let forCount = 0;
-    for (const num of nums) {
+    for (const n of nums) {
         forCount++;
-        if (forCount !== judgeBestTimes(forCount, times)) {
+
+        // もしループ回数がtimesのスコアより低ければ、検証不要
+        if (times === judgeBestTimes(forCount, times)) {
             break;
         }
+        shiftSum += n;
 
-        // shift のみの取り出しを検証
-        forSum += num;
-        if (forSum === x) {
-            times = forCount;
-            break;
+        // shiftのみの合計値がxと一致すれば、ループ回数でスコア検証
+        if (shiftSum === x) {
+            times = judgeBestTimes(forCount, times);
         }
 
-        // shift + pop の取り出しを検証
-        let subTimes = addPopLoop(nums, x, forSum);
-        if (subTimes !== -1) {
-            subTimes += forCount;
+        // popの合計値リストにxとshiftSumの差が存在していれば
+        // ループ回数とpop回数を加算した値でスコア検証
+        const diff = x - shiftSum;
+        if (popSumList.has(diff)) {
+            times = judgeBestTimes(popSumList.get(diff)! + forCount, times);
         }
-
-        times = judgeBestTimes(subTimes, times);
     }
 
+    // スコアがnumsの長さを超えていれば、同じ値が加算されているためスキップ
+    if (times > nums.length) {
+        times = -1;
+    }
     return times;
 };
 
-// 後ろから値を取り出し順に加算検証
-export const addPopLoop = (nums: number[], x: number, sum = 0): number => {
-    let times = -1;
-
+/**
+ * popの和をキーに、加算回数を値にしたリストを作成
+ * ※ nums[i] のため、0が加算されることは考慮不要
+ *
+ * @time_complexity     O(N)
+ * @spatial_complexity  O(N)
+ */
+export const makePopSumList = (nums: number[]): Map<number, number> => {
+    let popSum = 0;
+    const popSumList = new Map<number, number>();
     for (let i = 1; i <= nums.length; i++) {
-        sum += nums[nums.length - i];
-        if (sum === x) {
-            times = i;
-            break;
-        }
+        popSum += nums[nums.length - i];
+        popSumList.set(popSum, i);
     }
-    return times;
+    return popSumList;
 };
 
 // どちらの方が少ない回数か判定（-1は最低スコア）

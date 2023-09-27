@@ -1,4 +1,4 @@
-import { judgeBestTimes, addPopLoop, solve } from './minimun-delete';
+import { judgeBestTimes, solve, makePopSumList } from './minimun-delete';
 
 describe('unit tests', () => {
     it('judgeBestTimes', () => {
@@ -7,15 +7,16 @@ describe('unit tests', () => {
         expect(judgeBestTimes(1, -1)).toBe(1);
         expect(judgeBestTimes(-1, 1)).toBe(1);
     });
-});
 
-describe.each([
-    [[100, 100, 100, 14, 13, 12, 11, 10], 60, 0, 5],
-    [[100, 100, 100, 14, 13, 12, 11, 10], 60, 14, 4],
-    [[100, 100, 100, 100, 100, 100, 100, 100], 1000, 0, -1],
-])('addPopLoop', (num: number[], x: number, sum: number, expected: number) => {
-    it(`num:${num.join(',')} x:${x} sum:${sum}`, () => {
-        expect(addPopLoop(num, x, sum)).toBe(expected);
+    it('makePopSumList', () => {
+        const actual = new Map([
+            [5, 1],
+            [9, 2],
+            [12, 3],
+            [14, 4],
+            [15, 5],
+        ]);
+        expect(makePopSumList([1, 2, 3, 4, 5])).toEqual(actual);
     });
 });
 
