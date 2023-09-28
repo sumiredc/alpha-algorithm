@@ -69,12 +69,12 @@ export const solve = (nums: number[], x: number): number => {
  */
 export const makeRightSumMap = (nums: number[]): Map<number, number> => {
     let rightSum = 0;
-    const rightSumList = new Map<number, number>();
+    const rightSumMap = new Map<number, number>();
     for (let i = 1; i <= nums.length; i++) {
         rightSum += nums[nums.length - i];
-        rightSumList.set(rightSum, i);
+        rightSumMap.set(rightSum, i);
     }
-    return rightSumList;
+    return rightSumMap;
 };
 
 // どちらの方が少ない回数か判定（-1は最低スコア）
