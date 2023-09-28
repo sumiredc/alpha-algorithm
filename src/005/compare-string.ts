@@ -3,7 +3,7 @@
  * @see https://docs.google.com/document/d/1mROIPSxpH6AYMAxKsBo0X71jkwdki4qOQpSLahn3UYw/edit
  *
  * @time_complexity     O(N)
- * @spatial_complexity  O(1)
+ * @space_complexity  O(1)
  */
 
 const BACKSPACE = '#';

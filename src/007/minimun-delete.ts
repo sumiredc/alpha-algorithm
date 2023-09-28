@@ -15,21 +15,21 @@
  * 1 <= x <= 10^7
  *
  * @time_complexity     O(N)
- * @spatial_complexity  O(N)
+ * @space_complexity  O(N)
  */
 export const solve = (nums: number[], x: number): number => {
     let times = -1;
 
-    // popの合計値と回数のリストを作成
-    const popSumList = makePopSumList(nums);
+    // 右から取り出した合計値と回数のリストを作成
+    const rightSumMap = makeRightSumMap(nums);
 
     // もしxがキーに含まれていれば、加算回数を取得
-    if (popSumList.has(x)) {
-        times = popSumList.get(x)!;
+    if (rightSumMap.has(x)) {
+        times = rightSumMap.get(x)!;
     }
 
     // numsを前から検証（shift）
-    let shiftSum = 0;
+    let leftSum = 0;
     let forCount = 0;
     for (const n of nums) {
         forCount++;
@@ -38,18 +38,18 @@ export const solve = (nums: number[], x: number): number => {
         if (times === judgeBestTimes(forCount, times)) {
             break;
         }
-        shiftSum += n;
+        leftSum += n;
 
-        // shiftのみの合計値がxと一致すれば、ループ回数でスコア検証
-        if (shiftSum === x) {
+        // 左からの合計値がxと一致すれば、ループ回数でスコア検証
+        if (leftSum === x) {
             times = judgeBestTimes(forCount, times);
         }
 
-        // popの合計値リストにxとshiftSumの差が存在していれば
-        // ループ回数とpop回数を加算した値でスコア検証
-        const diff = x - shiftSum;
-        if (popSumList.has(diff)) {
-            times = judgeBestTimes(popSumList.get(diff)! + forCount, times);
+        // 右からの合計値リストにxとleftSumの差が存在していれば
+        // ループ回数と右からの加算回数を合計した値でスコア検証
+        const diff = x - leftSum;
+        if (rightSumMap.has(diff)) {
+            times = judgeBestTimes(rightSumMap.get(diff)! + forCount, times);
         }
     }
 
@@ -61,20 +61,20 @@ export const solve = (nums: number[], x: number): number => {
 };
 
 /**
- * popの和をキーに、加算回数を値にしたリストを作成
+ * 右から取り出した和をキーに、加算回数を値にしたリストを作成
  * ※ nums[i] のため、0が加算されることは考慮不要
  *
  * @time_complexity     O(N)
- * @spatial_complexity  O(N)
+ * @space_complexity    O(N)
  */
-export const makePopSumList = (nums: number[]): Map<number, number> => {
-    let popSum = 0;
-    const popSumList = new Map<number, number>();
+export const makeRightSumMap = (nums: number[]): Map<number, number> => {
+    let rightSum = 0;
+    const rightSumList = new Map<number, number>();
     for (let i = 1; i <= nums.length; i++) {
-        popSum += nums[nums.length - i];
-        popSumList.set(popSum, i);
+        rightSum += nums[nums.length - i];
+        rightSumList.set(rightSum, i);
     }
-    return popSumList;
+    return rightSumList;
 };
 
 // どちらの方が少ない回数か判定（-1は最低スコア）

@@ -8,7 +8,7 @@ type CharCounter = { [key: string]: number };
  * @see https://colab.research.google.com/drive/1gx99zHKnG8fUiH_L7F12Sq30iDq3T01H
  *
  * @time_complexity     O(NlogN)
- * @spatial_complexity  O(1)
+ * @space_complexity  O(1)
  */
 export const solve = (s: string): number => {
     const charCounters: CharCounter = getCountOfCharacters(s);
@@ -18,7 +18,7 @@ export const solve = (s: string): number => {
 /**
  * 文字の出現回数を格納した配列を作成
  * @time_complexity     O(N)
- * @spatial_complexity  O(N)
+ * @space_complexity  O(N)
  */
 const getCountOfCharacters = (s: string): CharCounter => {
     const charCounters: CharCounter = {};

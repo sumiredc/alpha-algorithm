@@ -2,7 +2,7 @@
  * @see https://colab.research.google.com/drive/1LhBlRBWkJdpQWaM53ZQiDCccnqVagajx#scrollTo=xCFYJxJLjauC
  *
  * @time_complexity     O(N)
- * @spatial_complexity  O(1)
+ * @space_complexity  O(1)
  */
 export const solve = (s: string): boolean => {
     // 1文字の場合繰り返しが成立しない

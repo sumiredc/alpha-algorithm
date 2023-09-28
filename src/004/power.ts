@@ -2,7 +2,7 @@
  * @see https://colab.research.google.com/drive/1tA19_sEDTeXwT1xBfS0HzDGcNFclLGdX
  *
  * @time_complexity     O(logN)
- * @spatial_complexity  O(logN)
+ * @space_complexity  O(logN)
  */
 const cache = new Map<number, number>();
 

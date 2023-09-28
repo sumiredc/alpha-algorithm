@@ -1,4 +1,4 @@
-import { judgeBestTimes, solve, makePopSumList } from './minimun-delete';
+import { judgeBestTimes, solve, makeRightSumMap } from './minimun-delete';
 
 describe('unit tests', () => {
     it('judgeBestTimes', () => {
@@ -16,7 +16,7 @@ describe('unit tests', () => {
             [14, 4],
             [15, 5],
         ]);
-        expect(makePopSumList([1, 2, 3, 4, 5])).toEqual(actual);
+        expect(makeRightSumMap([1, 2, 3, 4, 5])).toEqual(actual);
     });
 });
 

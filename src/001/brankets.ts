@@ -6,7 +6,7 @@ const brankets = new Set(['{}', '()', '[]']);
  * @see https://docs.google.com/document/d/1_sC8n4FiMwECVewDafR3rQmjV9G77cEDGQV4LzLULGg/edit#heading=h.qnbmjfbv9qo0
  *
  * @time_complexity     O(√N)
- * @spatial_complexity  O(√N)
+ * @space_complexity  O(√N)
  */
 
 export const solve = (s: string): boolean => {

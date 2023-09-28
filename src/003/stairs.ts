@@ -2,7 +2,7 @@
  * @see https://colab.research.google.com/drive/1D6EXk0UFIWjgGC_B5cJU-r7kX0JIDr13#scrollTo=XbvDWXd6jtED
  *
  * @time_complexity     O(N)
- * @spatial_complexity  O(1)
+ * @space_complexity  O(1)
  */
 export const solve = (n: number): number => {
     let sum = 0;
