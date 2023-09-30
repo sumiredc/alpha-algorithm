@@ -13,4 +13,3 @@
 ## サロン向け
 
 - https://colab.research.google.com/drive/1mk2WihjM_CBQE2jdEDSwl4uKFG0HAEEU
-- 
