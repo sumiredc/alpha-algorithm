@@ -15,14 +15,16 @@ export const solve = (nums: number[]): number[] => {
         const n = nums[i];
 
         // n が偶数ならポインターの位置の値と入れ替え
-        if (isEven(n)) {
-            nums[i] = nums[pointer];
-            nums[pointer] = n;
-            // 入れ替え完了後にポインターを進める
-            pointer++;
+        if (isOdd(n)) {
+            continue;
         }
+
+        // 入れ替えてポインターを進める
+        nums[i] = nums[pointer];
+        nums[pointer] = n;
+        pointer++;
     }
     return nums;
 };
 
-export const isEven = (n: number) => n % 2 === 0;
+export const isOdd = (n: number) => n % 2 !== 0;
