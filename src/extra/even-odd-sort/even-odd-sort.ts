@@ -8,17 +8,21 @@
  * @space_complexity    O(1)
  */
 export const solve = (nums: number[]): number[] => {
-    const len = nums.length;
-    for (let i = 0; i < len; i++) {
+    // 偶数が来たら入れ替えする位置
+    let pointer = 0;
+
+    for (let i = 0; i < nums.length; i++) {
         const n = nums[i];
-        // 奇数であれば最後尾へ移動し、0に置き換える
-        if (isOdd(n)) {
-            nums.push(n);
-            nums[i] = 0;
+
+        // n が偶数ならポインターの位置の値と入れ替え
+        if (isEven(n)) {
+            nums[i] = nums[pointer];
+            nums[pointer] = n;
+            // 入れ替え完了後にポインターを進める
+            pointer++;
         }
     }
-    // 0超過の値のみを返却
-    return nums.filter(n => n > 0);
+    return nums;
 };
 
-export const isOdd = (n: number) => n % 2 > 0;
+export const isEven = (n: number) => n % 2 === 0;
