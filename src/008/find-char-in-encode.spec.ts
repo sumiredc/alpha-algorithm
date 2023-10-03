@@ -1,4 +1,12 @@
-import { solve } from './find-char-in-encode';
+import { searchChar, solve } from './find-char-in-encode';
+
+describe('unit test', () => {
+    it('searchChar', () => {
+        expect(() => searchChar('123456', 1.5)).toThrow(
+            'n は 整数でお願いします'
+        );
+    });
+});
 
 describe.each([
     ['ABC', 2, 'B'],

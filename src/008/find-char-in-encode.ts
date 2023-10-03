@@ -15,8 +15,8 @@ export const solve = (s: string, x: number): string => {
  * @param {number} n 検索したい場所 〇〇番目（index + 1）
  * @returns
  */
-const searchChar = (s: string, n: number): string => {
-    if (n < 1) {
+export const searchChar = (s: string, n: number): string => {
+    if (n < 1 || n % 1 !== 0) {
         throw Error('n は 整数でお願いします');
     }
 
