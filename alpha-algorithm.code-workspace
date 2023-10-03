@@ -22,6 +22,10 @@
       "titleBar.inactiveBackground": "#2f75c199",
       "titleBar.inactiveForeground": "#e7e7e799"
     },
-    "peacock.color": "#2F75C1"
+    "peacock.color": "#2F75C1",
+    "jest.autoRun": {
+      "watch": false,
+      "onSave": "test-src-file"
+    }
   }
 }
