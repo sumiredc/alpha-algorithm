@@ -1,65 +1,73 @@
 /**
+ * @see https://colab.research.google.com/drive/1gK0DjJE8KyvgWxTDUlUHN1DuLyWOMPes
+ *
  * @time_complexity     O(N)
- * @space_complexity    O(N)
+ * @space_complexity    O(1)
  */
-type StructureRow = { chars: string; times: number };
 const numSet = new Set(['2', '3', '4', '5', '6', '7', '8', '9']);
 
 export const solve = (s: string, x: number): string => {
-    // 文字列, 繰り返し回数 が1行になったsの構造を作成
-    const stringStructure = makeStringStructure(s);
+    return searchChar(s, x);
+};
 
-    let encodeString = '';
-    let targetChar = '';
-    for (const { chars, times } of stringStructure) {
-        encodeString += chars;
-        // リピートした結果の文字長を事前に算出
-        const nextLength = encodeString.length * times;
+/**
+ * @param {string} s 検索対象の文字列
+ * @param {number} n 検索したい場所 〇〇番目（index + 1）
+ * @returns
+ */
+const searchChar = (s: string, n: number): string => {
+    if (n < 1) {
+        throw Error('n は 整数でお願いします');
+    }
 
-        // x が 文字長以上であれば、x番目を算出
-        if (nextLength >= x) {
-            targetChar = searchCharInUnitString(encodeString, x);
+    // pointer番目(index + 1)
+    let pointer = 0;
+    let target = '';
+    let lastChar = '';
+
+    for (const char of s) {
+        const prevPointer = pointer;
+        // 数値かどうかを判定
+        const isNum = numSet.has(char);
+
+        if (isNum) {
+            // 数字なら pointer に乗算
+            pointer *= Number(char);
+        } else {
+            // アルファベットなら pointer を +1
+            pointer++;
+            // 現在検証中の文字列を最後尾の文字列として保管
+            lastChar = char;
+        }
+
+        if (pointer < n) {
+            continue;
+        }
+
+        /**
+         * pointer が 検索したい番目と一致
+         *
+         * alphabet -> 現在の文字で確定
+         * number   -> 最後に出てきた文字で確定
+         */
+        if (pointer === n) {
+            target = isNum ? lastChar : char;
             break;
         }
-        // このループまでの文字列を作成
-        encodeString = encodeString.repeat(times);
-    }
-    return targetChar;
-};
 
-// 数字の含まれた文字列を 文字列, 繰り返し回数 の構造に変換
-const makeStringStructure = (s: string) => {
-    const structure: StructureRow[] = [];
-    structure.push(makeStructureRow());
+        // 現在の pointer と 検索番目 のあまりが、次の検索位置
+        const nextN = n % prevPointer;
 
-    for (const char of [...s]) {
-        let index = structure.length - 1;
-        if (numSet.has(char)) {
-            // 数字
-            structure[index].times *= Number(char);
-        } else {
-            // 文字
-            if (structure[index].times !== 1) {
-                structure.push(makeStructureRow());
-                index = structure.length - 1;
-            }
-            structure[index].chars += char;
+        // 次の検索位置が0なら、最後に出てきた文字が該当
+        if (nextN === 0) {
+            target = lastChar;
+            break;
         }
-    }
-    return structure;
-};
 
-export const makeStructureRow = (): StructureRow => ({ chars: '', times: 1 });
-
-// 文字列から◯番目を検索
-export const searchCharInUnitString = (
-    unitString: string,
-    num: number
-): string => {
-    let index = unitString.length - 1;
-    const remain = num % unitString.length;
-    if (remain > 0) {
-        index = remain - 1;
+        // 再帰的に検証
+        target = searchChar(s, nextN);
+        break;
     }
-    return unitString.substring(index, index + 1);
+
+    return target;
 };

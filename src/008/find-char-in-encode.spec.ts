@@ -1,17 +1,12 @@
-import { searchCharInUnitString, solve } from './find-char-in-encode';
-
-describe('unit test', () => {
-    it('searchCharInUnitString', () => {
-        expect(searchCharInUnitString('abcde', 12)).toBe('b');
-        expect(searchCharInUnitString('abcde', 10)).toBe('e');
-        expect(searchCharInUnitString('abcde', 5)).toBe('e');
-        expect(searchCharInUnitString('abcde', 1)).toBe('a');
-    });
-});
+import { solve } from './find-char-in-encode';
 
 describe.each([
+    ['ABC', 2, 'B'],
+    ['A2BC', 3, 'B'],
+    ['A23', 6, 'A'],
     ['A23', 5, 'A'],
     ['Hello2World', 11, 'W'],
+    ['proGram222ing', 4, 'G'],
     ['proGram222ing', 25, 'G'],
     ['abcd23456788888889999999', 102931, 'c'],
     ['ABCDEFG3255GHEEQegy389e', 12924, 'D'],
