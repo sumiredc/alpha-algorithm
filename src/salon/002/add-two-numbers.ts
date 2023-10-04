@@ -12,7 +12,7 @@ export const solve = (
 ): ListNode | null => {
     // 初回計算
     const addPlaceResult = addPlace(nodeA!.val, nodeB!.val, 0);
-    let head: ListNode | null = new ListNode(addPlaceResult.val);
+    const head: ListNode | null = new ListNode(addPlaceResult.val);
     let tail: ListNode | null = head;
     let roundUp = addPlaceResult.nextRoundUp;
 
