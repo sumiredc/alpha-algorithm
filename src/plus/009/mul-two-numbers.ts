@@ -6,7 +6,7 @@ import { ListNode } from '../../lib/listnode/listnode';
  * @time_complexity  O(nodeA^nodeB)
  * @space_complexity O(N)
  */
-type SpaceCalResult = { val: number; nextRoundUp: number };
+type SpaceCalResult = { val: number; nextCarry: number };
 
 export const solve = (
     nodeA: ListNode | null,
@@ -14,34 +14,34 @@ export const solve = (
 ): ListNode => {
     let head: ListNode | null = null;
     let tail: ListNode | null = null;
-    let mulRoundUp = 0;
+    let mulCarry = 0;
     let padPlace = 0;
 
     //     nodeA
     // x   nodeB
     // ---------
     // tail-head
-    while (nodeB !== null || mulRoundUp > 0) {
+    while (nodeB !== null || mulCarry > 0) {
         const valB = nodeB?.val ?? 0;
         // 2回使用するため、紛失しないよう複製
         let nodeA2 = nodeA;
-        let addRoundUp = 0;
+        let addCarry = 0;
 
-        while (nodeA2 !== null || mulRoundUp > 0 || addRoundUp > 0) {
+        while (nodeA2 !== null || mulCarry > 0 || addCarry > 0) {
             const valA = nodeA2?.val ?? 0;
             // 途中結果の乗算処理
-            const mulResult = mulPlace(valA, valB, mulRoundUp);
+            const mulResult = mulPlace(valA, valB, mulCarry);
             // 繰り上げが発生したら次へ回す
-            mulRoundUp = mulResult.nextRoundUp;
+            mulCarry = mulResult.nextCarry;
 
             // 最終結果の加算処理
             const addResult = addPlace(
                 mulResult.val,
                 tail?.next?.val ?? 0,
-                addRoundUp
+                addCarry
             );
             // 繰り上げが発生したら次へ回す
-            addRoundUp = addResult.nextRoundUp;
+            addCarry = addResult.nextCarry;
 
             const node = new ListNode(addResult.val);
 
@@ -88,22 +88,22 @@ export const getNodeList = (head: ListNode, index: number): ListNode | null => {
 export const addPlace = (
     lsv: number,
     rsv: number,
-    roundUp: number
+    carry: number
 ): SpaceCalResult => {
-    const sum = lsv + rsv + roundUp;
+    const sum = lsv + rsv + carry;
     const val = getOnesPlace(sum);
-    return { val, nextRoundUp: getTensPlace(sum) };
+    return { val, nextCarry: getTensPlace(sum) };
 };
 
 // 〇〇の位 の乗算処理
 export const mulPlace = (
     lsv: number,
     rsv: number,
-    roundUp: number
+    carry: number
 ): SpaceCalResult => {
-    const pro = lsv * rsv + roundUp;
+    const pro = lsv * rsv + carry;
     const val = getOnesPlace(pro);
-    return { val, nextRoundUp: getTensPlace(pro) };
+    return { val, nextCarry: getTensPlace(pro) };
 };
 
 // 1の位の取得

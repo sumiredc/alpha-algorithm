@@ -14,19 +14,19 @@ export const solve = (
     const addPlaceResult = addPlace(nodeA!.val, nodeB!.val, 0);
     const head: ListNode | null = new ListNode(addPlaceResult.val);
     let tail: ListNode | null = head;
-    let roundUp = addPlaceResult.nextRoundUp;
+    let carry = addPlaceResult.nextCarry;
 
     // 次の位へ移動
     nodeA = nodeA?.next ?? null;
     nodeB = nodeB?.next ?? null;
 
-    while (nodeA !== null || nodeB !== null || roundUp > 0) {
+    while (nodeA !== null || nodeB !== null || carry > 0) {
         const a = nodeA?.val ?? 0;
         const b = nodeB?.val ?? 0;
 
         // 現在の位 と 繰り上げする値を算出
-        const { val, nextRoundUp } = addPlace(a, b, roundUp);
-        roundUp = nextRoundUp;
+        const { val, nextCarry } = addPlace(a, b, carry);
+        carry = nextCarry;
         const node = new ListNode(val);
 
         // 2回目以降
@@ -42,11 +42,11 @@ export const solve = (
 export const addPlace = (
     lsv: number,
     rsv: number,
-    roundUp: number
-): { val: number; nextRoundUp: number } => {
-    const sum = lsv + rsv + roundUp;
+    carry: number
+): { val: number; nextCarry: number } => {
+    const sum = lsv + rsv + carry;
     const val = getOnesPlace(sum);
-    return { val, nextRoundUp: getTensPlace(sum) };
+    return { val, nextCarry: getTensPlace(sum) };
 };
 
 // 1の位の取得

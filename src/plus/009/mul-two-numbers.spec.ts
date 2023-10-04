@@ -1,5 +1,4 @@
 import {
-    ListNode,
     makeListNode as ln,
     makeListNode,
     toStrNumber,
@@ -82,14 +81,14 @@ describe.each([
     (
         lsv: number,
         rsv: number,
-        roundUp: number,
+        carry: number,
         expected1: number,
         expected2: number
     ) => {
-        it(`lsv: ${lsv}, : ${rsv}, : ${roundUp}`, () => {
-            let actual = addPlace(lsv, rsv, roundUp);
+        it(`lsv: ${lsv}, : ${rsv}, : ${carry}`, () => {
+            let actual = addPlace(lsv, rsv, carry);
             expect(actual.val).toBe(expected1);
-            expect(actual.nextRoundUp).toBe(expected2);
+            expect(actual.nextCarry).toBe(expected2);
         });
     }
 );
@@ -102,14 +101,14 @@ describe.each([
     (
         lsv: number,
         rsv: number,
-        roundUp: number,
+        carry: number,
         expected1: number,
         expected2: number
     ) => {
-        it(`lsv: ${lsv}, : ${rsv}, : ${roundUp}`, () => {
-            let actual = mulPlace(lsv, rsv, roundUp);
+        it(`lsv: ${lsv}, : ${rsv}, : ${carry}`, () => {
+            let actual = mulPlace(lsv, rsv, carry);
             expect(actual.val).toBe(expected1);
-            expect(actual.nextRoundUp).toBe(expected2);
+            expect(actual.nextCarry).toBe(expected2);
         });
     }
 );
