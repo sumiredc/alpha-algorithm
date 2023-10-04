@@ -1,4 +1,4 @@
-import { makeListNode as ln, toStrNumber } from './listnode';
+import { makeListNode as ln, toStrNumber } from '../../lib/listnode/listnode';
 import { getOnesPlace, getTensPlace, solve } from './add-two-numbers';
 
 describe.each([
