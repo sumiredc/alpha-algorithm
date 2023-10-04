@@ -81,14 +81,14 @@ describe.each([
     (
         lsv: number,
         rsv: number,
-        carry: number,
+        carryUp: number,
         expected1: number,
         expected2: number
     ) => {
-        it(`lsv: ${lsv}, : ${rsv}, : ${carry}`, () => {
-            let actual = addPlace(lsv, rsv, carry);
+        it(`lsv: ${lsv}, : ${rsv}, : ${carryUp}`, () => {
+            let actual = addPlace(lsv, rsv, carryUp);
             expect(actual.val).toBe(expected1);
-            expect(actual.nextCarry).toBe(expected2);
+            expect(actual.nextCarryUp).toBe(expected2);
         });
     }
 );
@@ -101,14 +101,14 @@ describe.each([
     (
         lsv: number,
         rsv: number,
-        carry: number,
+        carryUp: number,
         expected1: number,
         expected2: number
     ) => {
-        it(`lsv: ${lsv}, : ${rsv}, : ${carry}`, () => {
-            let actual = mulPlace(lsv, rsv, carry);
+        it(`lsv: ${lsv}, : ${rsv}, : ${carryUp}`, () => {
+            let actual = mulPlace(lsv, rsv, carryUp);
             expect(actual.val).toBe(expected1);
-            expect(actual.nextCarry).toBe(expected2);
+            expect(actual.nextCarryUp).toBe(expected2);
         });
     }
 );
