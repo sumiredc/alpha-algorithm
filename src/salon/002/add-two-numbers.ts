@@ -10,9 +10,16 @@ export const solve = (
     nodeA: ListNode | null,
     nodeB: ListNode | null
 ): ListNode | null => {
-    let head: ListNode | null = null;
-    let tail: ListNode | null = null;
-    let roundUp = 0;
+    // 初回計算
+    const addPlaceResult = addPlace(nodeA!.val, nodeB!.val, 0);
+    let head: ListNode | null = new ListNode(addPlaceResult.val);
+    let tail: ListNode | null = head;
+    let roundUp = addPlaceResult.nextRoundUp;
+
+    // 次の位へ移動
+    nodeA = nodeA?.next ?? null;
+    nodeB = nodeB?.next ?? null;
+
     while (nodeA !== null || nodeB !== null || roundUp > 0) {
         const a = nodeA?.val ?? 0;
         const b = nodeB?.val ?? 0;
@@ -22,15 +29,9 @@ export const solve = (
         roundUp = nextRoundUp;
         const node = new ListNode(val);
 
-        if (tail === null) {
-            // 初回
-            tail = head = node;
-        } else {
-            // 2回目以降
-            tail.next = node;
-            tail = tail.next;
-        }
-
+        // 2回目以降
+        tail.next = node;
+        tail = tail.next;
         nodeA = nodeA?.next ?? null;
         nodeB = nodeB?.next ?? null;
     }
