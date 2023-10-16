@@ -3,8 +3,8 @@ import { ListNode } from '../../lib/listnode/listnode';
 /**
  * @see https://colab.research.google.com/drive/1ObjTW6JMj3GFhvATbxm5Vyha58KhVrLJ
  *
- * @time_complexity  O(N)
- * @space_complexity O(N)
+ * @time_complexity  O(max(M,N))
+ * @space_complexity O(max(M,N))
  */
 export const solve = (
     nodeA: ListNode | null,

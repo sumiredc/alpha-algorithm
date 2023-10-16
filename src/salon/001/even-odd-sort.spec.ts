@@ -1,4 +1,4 @@
-import { solve } from './even-odd-sort';
+import { solve, isEven, isOdd } from './even-odd-sort';
 
 describe.each([
     [[1, 1, 4, 2, 3], '00111'],
@@ -30,5 +30,22 @@ describe.each([
             actual += n % 2 === 0 ? '0' : '1';
         }
         expect(actual).toBe(expected);
+    });
+});
+
+describe.each([
+    [1, true],
+    [2, false],
+    [3, true],
+    [4, false],
+    [10, false],
+    [111, true],
+])('isOdd or is Even', (n: number, expected: boolean) => {
+    it(`odd  ${n} ${expected}`, () => {
+        expect(isOdd(n)).toBe(expected);
+    });
+
+    it(`even ${n} ${!expected}`, () => {
+        expect(isEven(n)).toBe(!expected);
     });
 });

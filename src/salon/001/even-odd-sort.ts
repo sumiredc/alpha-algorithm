@@ -11,15 +11,16 @@ export const solve = (nums: number[]): number[] => {
     // 偶数が来たら入れ替えする位置
     let pointer = 0;
 
+    // 後ろから検証
     for (let i = 0; i < nums.length; i++) {
         const n = nums[i];
 
-        // n が偶数ならポインターの位置の値と入れ替え
+        // n が奇数なら処理不要
         if (isOdd(n)) {
             continue;
         }
 
-        // 入れ替えてポインターを進める
+        // n が偶数なら、前方と入れ替えてポインタを進める
         nums[i] = nums[pointer];
         nums[pointer] = n;
         pointer++;
@@ -27,4 +28,8 @@ export const solve = (nums: number[]): number[] => {
     return nums;
 };
 
-export const isOdd = (n: number) => n % 2 !== 0;
+// 論理積で奇数を判定する（0101, 0001 -> 0001 ※ 奇数)
+export const isOdd = (n: number) => Boolean(n & 1);
+
+// 論理積で偶数を判定する
+export const isEven = (n: number) => !Boolean(n & 1);
