@@ -6,7 +6,7 @@
  */
 type SearchCombinationsParams = {
     startNumber: number;
-    numberCollection: NumberCollection;
+    unfinishedCombiNums: NumberCollection;
 };
 
 export const solve = (k: number, n: number): number[][] => {
@@ -17,7 +17,7 @@ export const solve = (k: number, n: number): number[][] => {
     }
 
     const numberCombination = new NumberCombinations(k, n).execute();
-    return numberCombination.combinationNumbersAll;
+    return numberCombination.combiNumsAll;
 };
 
 /**
@@ -34,7 +34,7 @@ export const sumAP = (a: number, d: number, n: number): number => {
 };
 
 export class NumberCombinations {
-    private internalCombinationNumbersAll: number[][] = [];
+    private internalCombiNumsAll: number[][] = [];
 
     /**
      * @param {number} k 長さ
@@ -45,50 +45,48 @@ export class NumberCombinations {
         private readonly n: number
     ) {}
 
-    get combinationNumbersAll(): number[][] {
-        return this.internalCombinationNumbersAll;
+    get combiNumsAll(): number[][] {
+        return this.internalCombiNumsAll;
     }
 
     execute(): this {
         this.searchCombinations({
             startNumber: 1,
-            numberCollection: new NumberCollection(),
+            unfinishedCombiNums: new NumberCollection(),
         });
         return this;
     }
 
     private searchCombinations(params: SearchCombinationsParams) {
-        const { startNumber, numberCollection } = params;
+        const { startNumber, unfinishedCombiNums } = params;
 
         // k:長さ または n:合計 が 条件を超過していれば処理中断
         if (
-            this.isOverLength(numberCollection) ||
-            this.isOverSum(numberCollection)
+            this.isOverLength(unfinishedCombiNums) ||
+            this.isOverSum(unfinishedCombiNums)
         ) {
             return;
         }
 
         for (let i = startNumber; i <= 9; i++) {
             // 現在のループ値をセットして検証
-            numberCollection.push(i);
+            unfinishedCombiNums.push(i);
 
-            // 条件一致したら、internalCombinationNumbersAll に結果を追加
-            if (this.isMatchLengthAndSum(numberCollection)) {
-                this.internalCombinationNumbersAll.push(
-                    numberCollection.toArray()
-                );
+            // 条件一致したら、internalCombiNumsAll に結果を追加
+            if (this.isMatchLengthAndSum(unfinishedCombiNums)) {
+                this.internalCombiNumsAll.push(unfinishedCombiNums.toArray());
                 break;
             }
             // この時点で sum が n を over したら、これ以上検証不要
-            if (this.isOverSum(numberCollection)) {
+            if (this.isOverSum(unfinishedCombiNums)) {
                 break;
             }
 
             // 次の数字を追加して検証(length + 1)
-            this.searchCombinationsWithAddNumber(i, numberCollection);
+            this.searchCombinationsWithAddNumber(i, unfinishedCombiNums);
 
             // 次のループを検証するため現在のループ情報を取り除く
-            numberCollection.pop();
+            unfinishedCombiNums.pop();
         }
     }
 
@@ -110,7 +108,7 @@ export class NumberCombinations {
     // currentStartNumber を進めて再帰的に検証
     private searchCombinationsWithAddNumber(
         currentStartNumber: number,
-        numberCollection: NumberCollection
+        unfinishedCombiNums: NumberCollection
     ): void {
         // 現在の数字が9以上なら検証不要
         if (currentStartNumber >= 9) {
@@ -119,7 +117,7 @@ export class NumberCombinations {
         // combinationNumbers が書き換わらないよう clone して渡す
         this.searchCombinations({
             startNumber: currentStartNumber + 1,
-            numberCollection: numberCollection.clone(),
+            unfinishedCombiNums: unfinishedCombiNums.clone(),
         });
     }
 }
@@ -129,7 +127,7 @@ export class NumberCombinations {
  * ※ 初期配列が指定された場合のみ、初回O(N)で合計値を算出
  */
 export class NumberCollection {
-    private internalSum: number = 0;
+    private internalSum = 0;
 
     constructor(private readonly numbers: number[] = []) {
         // numbersが引数指定されたら合計値を算出
