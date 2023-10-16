@@ -2,7 +2,7 @@
  * @see https://colab.research.google.com/drive/1LoGGuF3BsR9MeBPiPDiyIJpxfU9RCXYu
  *
  * @time_complexity O(K! * 9CK)
- * @space_complexity O(9K)
+ * @space_complexity O(K! * 9CK)
  */
 type SearchCombinationsParams = {
     startNumber: number;
