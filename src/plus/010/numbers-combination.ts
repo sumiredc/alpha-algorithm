@@ -1,62 +1,23 @@
 /**
  * @see https://colab.research.google.com/drive/1LoGGuF3BsR9MeBPiPDiyIJpxfU9RCXYu
  *
- * @time_complexity O(9K)
+ * @time_complexity O(K! * 9CK)
  * @space_complexity O(9K)
  */
-const ans: number[][] = [];
+type SearchCombinationsParams = {
+    startNumber: number;
+    numberCollection: NumberCollection;
+};
 
 export const solve = (k: number, n: number): number[][] => {
-    // 次のテストケースへ引き継ぐためにリセット
-    ans.length = 0;
-
     // k個の組み合わせの最大値より大きい or k個の組み合わせの最小値より小さい
     // -> 該当する組み合わせが存在しない
     if (sumAP(9 - k + 1, 1, k) < n || sumAP(1, 1, k) > n) {
         return [];
     }
 
-    searchCombination(k, n, 1, [], 0);
-
-    return ans;
-};
-
-// 再帰的に組み合わせを探す
-export const searchCombination = (
-    k: number,
-    n: number,
-    startNumber: number,
-    numbers: number[],
-    sum: number
-) => {
-    // k と n が 条件over していれば処理中断
-    if (numbers.length > k || sum > n) {
-        return;
-    }
-
-    for (let i = startNumber; i <= 9; i++) {
-        numbers.push(i);
-        // 合計値の算出処理でループを生まないようセットで算出
-        sum += i;
-
-        // 条件一致したら、ans に結果を格納
-        if (numbers.length === k && sum === n) {
-            ans.push(numbers);
-            break;
-        }
-        // この時点で sum が n を over したら、これ以上検証不要
-        if (sum > n) {
-            break;
-        }
-
-        // startNumber を進めて再帰的に検証
-        // numbers が書き換わらないよう clone して渡す
-        searchCombination(k, n, i + 1, numbers.slice(), sum);
-
-        // 次のループを検証するため現在のループ情報を取り除く
-        numbers.pop();
-        sum -= i;
-    }
+    const numberCombination = new NumberCombinations(k, n).execute();
+    return numberCombination.combinationNumbersAll;
 };
 
 /**
@@ -71,3 +32,148 @@ export const searchCombination = (
 export const sumAP = (a: number, d: number, n: number): number => {
     return (n / 2) * (a + (a + d * (n - 1)));
 };
+
+export class NumberCombinations {
+    private internalCombinationNumbersAll: number[][] = [];
+
+    /**
+     * @param {number} k 長さ
+     * @param {number} n 合計
+     */
+    constructor(
+        private readonly k: number,
+        private readonly n: number
+    ) {}
+
+    get combinationNumbersAll(): number[][] {
+        return this.internalCombinationNumbersAll;
+    }
+
+    execute(): this {
+        this.searchCombinations({
+            startNumber: 1,
+            numberCollection: new NumberCollection(),
+        });
+        return this;
+    }
+
+    private searchCombinations(params: SearchCombinationsParams) {
+        const { startNumber, numberCollection } = params;
+
+        // k:長さ または n:合計 が 条件を超過していれば処理中断
+        if (
+            this.isOverLength(numberCollection) ||
+            this.isOverSum(numberCollection)
+        ) {
+            return;
+        }
+
+        for (let i = startNumber; i <= 9; i++) {
+            // 現在のループ値をセットして検証
+            numberCollection.push(i);
+
+            // 条件一致したら、internalCombinationNumbersAll に結果を追加
+            if (this.isMatchLengthAndSum(numberCollection)) {
+                this.internalCombinationNumbersAll.push(
+                    numberCollection.toArray()
+                );
+                break;
+            }
+            // この時点で sum が n を over したら、これ以上検証不要
+            if (this.isOverSum(numberCollection)) {
+                break;
+            }
+
+            // 次の数字を追加して検証(length + 1)
+            this.searchCombinationsWithAddNumber(i, numberCollection);
+
+            // 次のループを検証するため現在のループ情報を取り除く
+            numberCollection.pop();
+        }
+    }
+
+    // 条件 k:長さ を超えているか
+    private isOverLength(nc: NumberCollection): boolean {
+        return nc.length > this.k;
+    }
+
+    // 条件 n:合計 を超えているか
+    private isOverSum(nc: NumberCollection): boolean {
+        return nc.sum > this.n;
+    }
+
+    // 条件 k:長さ と n:合計 を満たしているか
+    private isMatchLengthAndSum(nc: NumberCollection): boolean {
+        return nc.length === this.k && nc.sum === this.n;
+    }
+
+    // currentStartNumber を進めて再帰的に検証
+    private searchCombinationsWithAddNumber(
+        currentStartNumber: number,
+        numberCollection: NumberCollection
+    ): void {
+        // 現在の数字が9以上なら検証不要
+        if (currentStartNumber >= 9) {
+            return;
+        }
+        // combinationNumbers が書き換わらないよう clone して渡す
+        this.searchCombinations({
+            startNumber: currentStartNumber + 1,
+            numberCollection: numberCollection.clone(),
+        });
+    }
+}
+
+/**
+ * 数値配列の合計値をO(1)で算出するためクラス管理
+ * ※ 初期配列が指定された場合のみ、初回O(N)で合計値を算出
+ */
+export class NumberCollection {
+    private internalSum: number = 0;
+
+    constructor(private readonly numbers: number[] = []) {
+        // numbersが引数指定されたら合計値を算出
+        if (numbers.length > 0) {
+            this.internalSum = numbers.reduce(
+                (prev, current) => prev + current,
+                0
+            );
+        }
+    }
+
+    get sum(): number {
+        return this.internalSum;
+    }
+
+    get length(): number {
+        return this.numbers.length;
+    }
+
+    push(n: number): this {
+        this.numbers.push(n);
+        this.internalSum += n;
+        return this;
+    }
+
+    pop(): number | undefined {
+        if (this.length === 0) {
+            return undefined;
+        }
+        const n: number = this.numbers.pop()!;
+        this.internalSum -= n;
+        return n;
+    }
+
+    toArray(): number[] {
+        return this.numbers;
+    }
+
+    /**
+     * クラスの複製
+     * @time_complexity O(N)
+     * @space_complexity O(N)
+     */
+    clone(): NumberCollection {
+        return new NumberCollection(this.numbers.slice());
+    }
+}
