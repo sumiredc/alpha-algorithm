@@ -15,7 +15,7 @@
  *
  *
  * @time_complexity O(2^n)
- * @space_complexity 0(n)
+ * @space_complexity O(n)
  *
  * Σ(nCk)for k = n to 1
  * = 2^n
