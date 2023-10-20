@@ -12,36 +12,42 @@
  *
  * - Input: [3,5,-1,8,12]
  * - Output: true
+ *
+ *
+ * @time_complexity O(2^n)
+ * @space_complexity 0(n)
+ *
+ * Σ(nCk)for k = n to 1
+ * = 2^n
  */
 type FindCombiParams = {
     combiNums: NumCollrection;
-    filterdNums: number[];
+    filteredNums: number[];
     index: number;
     max: number;
 };
 
+// Backtrack
 export const solve = (nums: number[]): boolean => {
     const max = Math.max(...nums);
-    const hashSet = new Set(nums);
-    hashSet.delete(max);
-    const filterdNums = [...hashSet];
-
+    // 最大値を除いた数字の配列
+    const filteredNums = nums.filter(n => n !== max);
     const combiNums = new NumCollrection();
 
     return findCombi({
         combiNums,
-        filterdNums,
-        index: filterdNums.length - 1,
+        filteredNums,
+        index: filteredNums.length - 1,
         max,
     });
 };
 
 const findCombi = (params: FindCombiParams): boolean => {
-    const { combiNums, filterdNums, max } = params;
+    const { combiNums, filteredNums, max } = params;
     let { index } = params;
 
     for (index; index >= 0; index--) {
-        combiNums.push(filterdNums[index]);
+        combiNums.push(filteredNums[index]);
 
         // maxに一致する組み合わせを発見 -> true
         if (max === combiNums.sum) {
@@ -51,7 +57,7 @@ const findCombi = (params: FindCombiParams): boolean => {
         // 再帰的に次の値を検証
         const isFindCombi = findCombi({
             combiNums,
-            filterdNums,
+            filteredNums,
             max,
             index: index - 1,
         });
@@ -66,6 +72,7 @@ const findCombi = (params: FindCombiParams): boolean => {
     return false;
 };
 
+// 数字配列と合計値を並行管理するクラス
 class NumCollrection {
     private nums: number[] = [];
     private iternalSum = 0;
@@ -78,10 +85,9 @@ class NumCollrection {
         return this.nums.length;
     }
 
-    push(v: number): this {
+    push(v: number): void {
         this.nums.push(v);
         this.iternalSum += v;
-        return this;
     }
 
     pop(): number | undefined {
@@ -91,16 +97,5 @@ class NumCollrection {
         const v = this.nums.pop()!;
         this.iternalSum -= v;
         return v;
-    }
-
-    toArray(): number[] {
-        return this.nums;
-    }
-
-    clone(): NumCollrection {
-        const clone = new NumCollrection() as any;
-        clone.nums = this.nums.slice();
-        clone.iternalSum = this.sum;
-        return clone as NumCollrection;
     }
 }
