@@ -25,7 +25,8 @@
     "peacock.color": "#2F75C1",
     "jest.autoRun": {
       "watch": false,
-      "onSave": "test-src-file"
+      "onSave": "test-src-file",
+      "onStartup": [],
     }
   }
 }
