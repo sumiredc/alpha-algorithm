@@ -7,8 +7,8 @@ type CharCounter = { [key: string]: number };
  * ソート
  * @see https://colab.research.google.com/drive/1gx99zHKnG8fUiH_L7F12Sq30iDq3T01H
  *
- * @time_complexity     O(NlogN)
- * @space_complexity  O(1)
+ * @time_complexity   O(NlogN)
+ * @space_complexity  O(M)
  */
 export const solve = (s: string): number => {
     const charCounters: CharCounter = getCountOfCharacters(s);
