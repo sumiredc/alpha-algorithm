@@ -86,10 +86,13 @@ export const swapSchedule = (schedules: number[][], i1: number, i2: number) => {
 
 // 並び替えたスケジュールの時間が重複していないか
 export const isNotOverlapShedule = (schedules: number[][]) => {
+    // カウントダウンでループ検証
     for (let i = schedules.length - 1; i > 0; i--) {
+        // 一つ前の end
         const prevEnd = schedules[i - 1][1];
+        // 現在フォーカス中の start
         const currentStart = schedules[i][0];
-        // 検証中のstartが一つ前のend未満であればfalse
+        // 検証中の start が一つ前の end 未満であれば false
         if (currentStart < prevEnd) {
             return false;
         }
