@@ -1,6 +1,13 @@
-import { solve } from './meeting-room0';
-
-describe.each([
+export const testcase: [number[][], number][] = [
+    [
+        [
+            [30, 40],
+            [20, 30],
+            [40, 50],
+            [10, 20],
+        ],
+        1,
+    ],
     [
         [
             [0, 40],
@@ -237,9 +244,4 @@ describe.each([
         ],
         1,
     ],
-])('solve', (schedules: number[][], expected: number) => {
-    it(`schedules: ${JSON.stringify(schedules)}`, () => {
-        const actual = solve(schedules);
-        expect(actual).toBe(expected);
-    });
-});
+];
