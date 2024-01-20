@@ -15,7 +15,7 @@ export const solve = (balloons: number[][]): number => {
 
     /** 必要な弾数 */
     let bullets = 0;
-    /** 重なりを判定する境界値 = 直前のバルーンの右端 */
+    /** 重なりを判定する境界値 = 直前のバルーンの左端 */
     let boundary = balloons[0][0] - 1;
 
     for (let i = 0; i < balloons.length; i++) {
