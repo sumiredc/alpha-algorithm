@@ -1,6 +1,3 @@
-const openBrankets = new Set(['{', '(', '[']);
-const brankets = new Set(['{}', '()', '[]']);
-
 /**
  * @see https://colab.research.google.com/drive/1vK5gRo8NV4w7BLKG_EbLIaF9nz050V6I#scrollTo=ulSuWMlWUexR
  * @see https://docs.google.com/document/d/1_sC8n4FiMwECVewDafR3rQmjV9G77cEDGQV4LzLULGg/edit#heading=h.qnbmjfbv9qo0
@@ -8,6 +5,9 @@ const brankets = new Set(['{}', '()', '[]']);
  * @time_complexity     O(√N)
  * @space_complexity  O(√N)
  */
+
+const openBrankets = new Set(['{', '(', '[']);
+const brankets = new Set(['{}', '()', '[]']);
 
 export const solve = (s: string): boolean => {
     // 奇数なら条件一致はありえない
