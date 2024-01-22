@@ -1,5 +1,4 @@
 import { solve } from './noise-filtering';
-import { logging } from '../../lib/logger/logger';
 
 describe.each([
     [[], []],
