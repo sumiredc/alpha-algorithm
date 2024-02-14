@@ -6,10 +6,12 @@ from enum import Enum
 # time_complexity: O(N)
 # space_complexity: O(1)
 
-class Status(Enum):
-    NONE = 0
+
+class Cell(Enum):
+    EMPTY = 0
     GHOST = 1
     COIN = 2
+
 
 def solve(matrix: List[List[int]]) -> int:
     sky = matrix[0]
@@ -19,7 +21,7 @@ def solve(matrix: List[List[int]]) -> int:
     # ゴール手前までを検証
     nextIdx = 1
     while nextIdx < len(ground) - 1:
-        if sky[nextIdx] == Status.GHOST.value and ground[nextIdx] == Status.GHOST.value:
+        if sky[nextIdx] == Cell.GHOST.value and ground[nextIdx] == Cell.GHOST.value:
             raise ValueError("これ以上進めません")
 
         # 次のマスへ進む
@@ -38,16 +40,20 @@ def solve(matrix: List[List[int]]) -> int:
 
     return coin
 
+
 # 次のマスに進むべきかどうか を判定
-def _shouldMoveToNext(sky: List[int], ground: List[int], nextIdx: int) -> bool:
-    if ground[nextIdx] == Status.GHOST.value:
+def _shouldMoveToNext(sky: List[int], ground: List[int], x: int) -> bool:
+    if ground[x] == Cell.GHOST.value:
         return False
 
-    return sky[nextIdx] == Status.GHOST.value or \
-            ground[nextIdx + 1] == Status.GHOST.value or \
-            ground[nextIdx] == Status.COIN.value or \
-            sky[nextIdx] != Status.COIN.value
+    return (
+        sky[x] == Cell.GHOST.value
+        or ground[x + 1] == Cell.GHOST.value
+        or ground[x] == Cell.COIN.value
+        or sky[x] != Cell.COIN.value
+    )
+
 
 # 指定位置で得られるコインの枚数を算出
 def _getCoinCount(position: int) -> int:
-    return 1 if position == Status.COIN.value else 0
+    return 1 if position == Cell.COIN.value else 0

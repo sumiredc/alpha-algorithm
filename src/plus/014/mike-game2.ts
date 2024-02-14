@@ -6,8 +6,8 @@
  * @space_complexity O(1)
  */
 
-enum Status {
-    NONE = 0,
+enum Cell {
+    EMPTY = 0,
     GHOST = 1,
     COIN = 2,
 }
@@ -18,20 +18,22 @@ export const solve = (matrix: number[][]): number => {
     let coin = 0;
 
     // ゴール手前までを検証
-    for (let next = 1; next < ground.length - 1; next++) {
-        if (sky[next] === Status.GHOST && ground[next] === Status.GHOST) {
+    let x = 1;
+    while (x < ground.length - 1) {
+        if (sky[x] === Cell.GHOST && ground[x] === Cell.GHOST) {
             throw new Error('これ以上進めません');
         }
 
         // 次のマスに進む
-        if (shouldMoveToNext(sky, ground, next)) {
-            coin += getCoinCount(ground[next]);
+        if (shouldMoveToNext(sky, ground, x)) {
+            coin += getCoinCount(ground[x]);
+            x++;
             continue;
         }
 
         // ジャンプする（2マス進む）
-        coin += getCoinCount(sky[next]) + getCoinCount(ground[next + 1]);
-        next++;
+        coin += getCoinCount(sky[x]) + getCoinCount(ground[x + 1]);
+        x += 2;
     }
 
     // ゴール地点のコインを回収
@@ -42,21 +44,21 @@ export const solve = (matrix: number[][]): number => {
 };
 
 // 次のマスに進むべきかどうか を判定
-const shouldMoveToNext = (sky: number[], ground: number[], next: number) => {
+const shouldMoveToNext = (sky: number[], ground: number[], nextIdx: number) => {
     // 次の床がゴースト -> false
-    if (ground[next] === Status.GHOST) {
+    if (ground[nextIdx] === Cell.GHOST) {
         return false;
     }
     // 空がゴースト or 次の次の床がゴースト or 次の床がコイン or 次の空に何もない
     return (
-        sky[next] === Status.GHOST ||
-        ground[next + 1] === Status.GHOST ||
-        ground[next] === Status.COIN ||
-        sky[next] !== Status.COIN
+        sky[nextIdx] === Cell.GHOST ||
+        ground[nextIdx + 1] === Cell.GHOST ||
+        ground[nextIdx] === Cell.COIN ||
+        sky[nextIdx] !== Cell.COIN
     );
 };
 
 // 指定位置で得られるコインの枚数を算出
 const getCoinCount = (position: number) => {
-    return position === Status.COIN ? 1 : 0;
+    return position === Cell.COIN ? 1 : 0;
 };
