@@ -1,3 +1,16 @@
+# How to Test run
+
+## TypeScript
+```bash
+pnpm jest {name}
+```
+
+## Python
+```bash
+cd {dir}
+python -m unittest
+```
+
 # アルゴリズム問題
 
 1. https://colab.research.google.com/drive/1AHxafLSkgHMdVwRG_ccW29q-mBjQ5P_l
