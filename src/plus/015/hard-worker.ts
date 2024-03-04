@@ -2,17 +2,18 @@
  * @see https://colab.research.google.com/drive/1jjLSye6v7nXfwhPYx4t1IfXy1_lQvcz0
  *
  * N = jobs.length
- * @time_complexity O(N * 3 * 3 + 3) = O(N)
+ * M = jobs[x].length = 3(Fixed value)
+ * @time_complexity O(NM) = O(N)
  * @space_complexity O(3:prevTotals + 3:currentTotals) = O(1)
  */
 export const solve = (jobs: number[][]): number => {
     let prevTotals: [number, number, number] = [0, 0, 0];
-    for (let rowNo = 0; rowNo < jobs.length; rowNo++) {
+    for (let y = 0; y < jobs.length; y++) {
         const currentTotals: [number, number, number] = [0, 0, 0];
-        const jobRow = jobs[rowNo];
+        const jobRow = jobs[y];
 
-        for (let id = 0; id < jobRow.length; id++) {
-            currentTotals[id] = getMaxReward(prevTotals, id) + jobRow[id];
+        for (let x = 0; x < jobRow.length; x++) {
+            currentTotals[x] = getMaxReward(prevTotals, x) + jobRow[x];
         }
 
         prevTotals = currentTotals;
@@ -22,19 +23,19 @@ export const solve = (jobs: number[][]): number => {
 };
 
 function getMaxReward(jobsRow: number[], ignoreId: number) {
-    let max = -1;
+    let maxRewards = -1;
 
-    for (let id = 0; id < jobsRow.length; id++) {
-        const reward = jobsRow[id];
-        if (ignoreId === id) {
+    for (let x = 0; x < jobsRow.length; x++) {
+        const reward = jobsRow[x];
+        if (ignoreId === x) {
             continue;
         }
-        if (max < reward) {
-            max = reward;
+        if (maxRewards < reward) {
+            maxRewards = reward;
         }
     }
-    if (max === -1) {
+    if (maxRewards === -1) {
         throw new Error('Reward情報が取得できませんでした');
     }
-    return max;
+    return maxRewards;
 }
