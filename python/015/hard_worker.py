@@ -1,8 +1,9 @@
 from typing import List
 
 # See https://colab.research.google.com/drive/1jjLSye6v7nXfwhPYx4t1IfXy1_lQvcz0
-# N = jobs.length
-# time_complexity O(N * 3 * 3 + 3) = O(N)
+# N = len(jobs)
+# M = len(jobs[y]) = 3(Fixed value)
+# time_complexity O(NM) = O(N)
 # space_complexity O(3:prev_totals + 3:current_totals) = O(1)
 
 
