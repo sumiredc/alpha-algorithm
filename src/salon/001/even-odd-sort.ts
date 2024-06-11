@@ -32,4 +32,4 @@ export const solve = (nums: number[]): number[] => {
 export const isOdd = (n: number) => Boolean(n & 1);
 
 // 論理積で偶数を判定する
-export const isEven = (n: number) => !Boolean(n & 1);
+export const isEven = (n: number) => !(n & 1);

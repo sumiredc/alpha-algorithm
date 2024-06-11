@@ -68,7 +68,7 @@ describe.each([
 ])('getNodeList', (index: number, expected: number | undefined) => {
     const node = makeListNode([0, 1, 2, 3, 4, 5]);
     it(`index: ${index}`, () => {
-        let actual = getNodeList(node, index);
+        const actual = getNodeList(node, index);
         expect(actual?.val).toBe(expected);
     });
 });
@@ -86,7 +86,7 @@ describe.each([
         expected2: number
     ) => {
         it(`lsv: ${lsv}, : ${rsv}, : ${carryUp}`, () => {
-            let actual = addPlace(lsv, rsv, carryUp);
+            const actual = addPlace(lsv, rsv, carryUp);
             expect(actual.val).toBe(expected1);
             expect(actual.nextCarryUp).toBe(expected2);
         });
@@ -106,7 +106,7 @@ describe.each([
         expected2: number
     ) => {
         it(`lsv: ${lsv}, : ${rsv}, : ${carryUp}`, () => {
-            let actual = mulPlace(lsv, rsv, carryUp);
+            const actual = mulPlace(lsv, rsv, carryUp);
             expect(actual.val).toBe(expected1);
             expect(actual.nextCarryUp).toBe(expected2);
         });

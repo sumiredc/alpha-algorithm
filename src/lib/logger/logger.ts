@@ -2,6 +2,7 @@ import fs from 'fs';
 
 const path = 'logs/alpha-algorithm.log';
 
+// eslint-disable-next-line
 export const logging = (data: any): boolean => {
     // 追記モードでファイルを開く
     const writeStream = fs.createWriteStream(path, {

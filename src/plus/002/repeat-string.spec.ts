@@ -1,4 +1,4 @@
-import {solve} from './repeat-string';
+import { solve } from './repeat-string';
 
 describe.each([
     ['abcdefghijklmnopqrstuvwxyz', false],

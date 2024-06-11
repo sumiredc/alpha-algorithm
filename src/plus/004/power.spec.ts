@@ -1,4 +1,4 @@
-import {solve} from './power';
+import { solve } from './power';
 
 describe.each([
     [2, 1, '2.00000000'],

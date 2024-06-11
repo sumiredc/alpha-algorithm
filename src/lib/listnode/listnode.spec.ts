@@ -5,7 +5,7 @@ describe.each([
     [[1, 2, 3], '123'],
 ])('makeListNodes and toString', (nums: number[], expected: string) => {
     it('check', () => {
-        let head: ListNode | null = makeListNode(nums);
+        const head: ListNode | null = makeListNode(nums);
         const actual = toStrNumber(head);
         expect(actual).toBe(expected);
     });

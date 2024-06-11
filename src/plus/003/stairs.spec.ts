@@ -1,4 +1,4 @@
-import {solve} from './stairs';
+import { solve } from './stairs';
 
 describe.each([
     [10, 23],

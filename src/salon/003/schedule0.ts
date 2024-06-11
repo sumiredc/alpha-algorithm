@@ -8,7 +8,7 @@
  */
 export const solve = (schedules: number[][]): boolean => {
     const length = maxEnd(schedules);
-    let bitList = new Array<number>(length).fill(0);
+    const bitList = new Array<number>(length).fill(0);
     let result = true;
 
     parent: for (const schedule of schedules) {

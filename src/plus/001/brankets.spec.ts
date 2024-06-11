@@ -1,4 +1,4 @@
-import {solve} from './brankets';
+import { solve } from './brankets';
 
 describe.each([
     ['()', true],
