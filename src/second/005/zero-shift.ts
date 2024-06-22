@@ -11,38 +11,48 @@
  * @space_complexity O(1) ※O(N)
  */
 export function solve(nums: number[]): void {
-    let i = 0;
+    let numsIndex = 0;
     let shiftCount = 0;
     const lastIndex = nums.length - 1;
     let lastNumZero = true;
 
-    while (lastIndex - shiftCount - i !== 0) {
-        if (nums[i] === 0) {
+    /**
+     * 1. 0 の数を算出
+     * 2. 0 shift して残る 数字のindexを算出
+     * 3. 最後 に shift で追加された 0 ではない 0 が来るか判定
+     */
+    while (lastIndex - shiftCount - numsIndex !== 0) {
+        if (nums[numsIndex] === 0) {
             shiftCount++;
         }
-        if (lastIndex - shiftCount - i === 0) {
+        if (lastIndex - shiftCount - numsIndex === 0) {
             lastNumZero = false;
             break;
         }
-        i++;
+        numsIndex++;
     }
 
-    lastNumZero = lastNumZero && nums[i] === 0;
+    lastNumZero = lastNumZero && nums[numsIndex] === 0;
 
     let swapIndex = lastIndex;
-    while (swapIndex > i) {
+
+    /**
+     * 1. 後ろから、配列に残す数字を最終位置へ移動
+     * 2. 0 が 現れたら shift 0 を追加
+     */
+    while (swapIndex > numsIndex) {
         if (lastNumZero) {
-            nums[swapIndex] = nums[i];
+            nums[swapIndex] = nums[numsIndex];
             lastNumZero = false;
         } else {
-            if (nums[i] === 0) {
+            if (nums[numsIndex] === 0) {
                 nums[swapIndex] = 0;
                 swapIndex--;
             }
-            nums[swapIndex] = nums[i];
+            nums[swapIndex] = nums[numsIndex];
         }
 
         swapIndex--;
-        i--;
+        numsIndex--;
     }
 }
